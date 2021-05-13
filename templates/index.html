@@ -4,9 +4,8 @@
 {% block head %}
 
 <title>
-	{{ data.info.symbol }} {{ data.info.regularMarketPrice }} ({{ "%.2f"|format((1
-	- (data.info.regularMarketPreviousClose / data.info.regularMarketPrice)) *
-	100) }}%)
+	{{ data.symbol }} {{ data.regularMarketPrice }} ({{ "%.2f"|format((1 -
+	(data.regularMarketPreviousClose / data.regularMarketPrice)) * 100) }}%)
 </title>
 
 {% endblock %}
@@ -37,30 +36,31 @@
 
 <div class="row align-items-start mt-4">
 	<div class="col-2">
-		<img src="{{ data.info.logo_url }}" />
+		<img src="{{ data.logo_url }}" />
 	</div>
 	<div class="col">
-		<p id="symbol" style="display: none">{{ data.info.symbol }}</p>
-		<p class="fw-bold fs-6">
-			{{ data.info.shortName }} ({{ data.info.symbol }})
-		</p>
+		<p id="symbol" style="display: none">{{ data.symbol }}</p>
+		<p class="fw-bold fs-6">{{ data.shortName }} ({{ data.symbol }})</p>
 		<div class="fw-bold fs-2">
-			<span id="market-price">{{ data.info.regularMarketPrice }}</span>
+			<span id="market-price">{{ data.regularMarketPrice }}</span>
 			<p id="current" class="fs-5">
-				(<span id="current-percent">
-					{{ "%.2f"|format((1 - (data.info.regularMarketPreviousClose /
-					data.info.regularMarketPrice)) * 100) }} </span
+				(<span id="current-percent"
+					>{{ "%.2f"|format((1 - (data.regularMarketPreviousClose /
+					data.regularMarketPrice)) * 100) }}</span
 				>%)
 			</p>
 		</div>
 	</div>
 </div>
 <div class="flex-nav">
-	<div class="nav-item">
+	<div class="nav-item" id="summary">
 		<a href="/">Summary</a>
 	</div>
-	<div class="nav-item">
-		<a href="/holders?symbol={{data.info.symbol.lower()}}">Holders</a>
+	<div class="nav-item" id="holders">
+		<a href="/holders?symbol={{data.symbol.lower()}}">Holders</a>
+	</div>
+	<div class="nav-item" id="profile">
+		<a href="/profile?symbol={{data.symbol.lower()}}">Profile</a>
 	</div>
 </div>
 
@@ -75,56 +75,37 @@
 						<tr>
 							<td>Previous close</td>
 							<td class="fw-bold text-end">
-								{{ data.info.regularMarketPreviousClose }}
+								{{ data.regularMarketPreviousClose }}
 							</td>
 						</tr>
 
 						<tr>
 							<td>Open</td>
-							<td class="fw-bold text-end">
-								{{ data.info.regularMarketOpen }}
-							</td>
+							<td class="fw-bold text-end">{{ data.regularMarketOpen }}</td>
 						</tr>
 
 						<tr>
 							<td>Bid</td>
-							<td class="fw-bold text-end">{{ data.info.bid }}</td>
+							<td class="fw-bold text-end">{{ data.bid }}</td>
 						</tr>
 
 						<tr>
 							<td>Ask</td>
-							<td class="fw-bold text-end">{{ data.info.ask }}</td>
+							<td class="fw-bold text-end">{{ data.ask }}</td>
 						</tr>
 
 						<tr>
 							<td>Day's range</td>
 							<td class="fw-bold text-end">
-								{{ data.info.regularMarketDayLow }} - {{
-								data.info.regularMarketDayHigh }}
+								{{ data.regularMarketDayLow }} - {{ data.regularMarketDayHigh }}
 							</td>
 						</tr>
 
 						<tr>
 							<td>52 week range</td>
 							<td class="fw-bold text-end">
-								{{ data.info.fiftyTwoWeekLow }} - {{ data.info.fiftyTwoWeekHigh
-								}}
+								{{ data.fiftyTwoWeekLow }} - {{ data.fiftyTwoWeekHigh }}
 							</td>
-						</tr>
-
-						<tr>
-							<td>Volume</td>
-							<td class="fw-bold text-end">{{ data.info.volume }}</td>
-						</tr>
-
-						<tr>
-							<td>Average volumne</td>
-							<td class="fw-bold text-end">{{ data.info.averageVolume }}</td>
-						</tr>
-
-						<tr>
-							<td>Market cap</td>
-							<td class="fw-bold text-end">{{ data.info.marketCap }}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -134,24 +115,42 @@
 					<tbody>
 						<tr>
 							<td>Market cap</td>
-							<td class="fw-bold text-end" id="big-number">
-								{{ data.info.marketCap }}
+							<td class="fw-bold text-end" id="market-cap">
+								{{ data.marketCap }}
+							</td>
+						</tr>
+
+						<tr>
+							<td>Volume</td>
+							<td class="fw-bold text-end">{{ '{:,}'.format(data.volume) }}</td>
+						</tr>
+
+						<tr>
+							<td>Average volumne</td>
+							<td class="fw-bold text-end">
+								{{ '{:,}'.format(data.averageVolume) }}
 							</td>
 						</tr>
 
 						<tr>
 							<td>Dividend yeild</td>
-							<td class="fw-bold text-end" id="big-number">
-								{% if data.info.dividendYield %} {{
-								"%.2f"|format(data.info.dividendYield * 100) }}% {% else %} none
-								{% endif %}
+							<td class="fw-bold text-end">
+								{% if data.dividendYield %} {{ "%.2f"|format(data.dividendYield
+								* 100) }}% {% else %} none {% endif %}
+							</td>
+						</tr>
+
+						<tr>
+							<td>Recent quarter</td>
+							<td class="fw-bold text-end" id="recent-quarter">
+								{{ data.mostRecentQuarter }}
 							</td>
 						</tr>
 
 						<tr>
 							<td>Quote type</td>
 							<td class="fw-bold text-end" id="big-number">
-								{{ data.info.quoteType.lower() }}
+								{{ data.quoteType.lower() }}
 							</td>
 						</tr>
 					</tbody>
@@ -160,7 +159,7 @@
 		</div>
 	</div>
 	<div class="col">
-		<canvas id="myChart" class="mt-3"></canvas>
+		<canvas id="myChart"></canvas>
 	</div>
 </div>
 

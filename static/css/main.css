@@ -27,7 +27,18 @@ body {
 }
 
 .nav-item {
-	margin: 0 10px;
+	font-size: 0.85rem !important;
+	padding: 10px 20px;
+	border-bottom: 3px solid #d6d6d6;
+}
+
+.nav-item > a {
+	color: #444444;
+}
+
+.nav-item-selected {
+	font-weight: bold;
+	border-bottom: 3px solid #328eda;
 }
 
 .nav-item > a {
@@ -37,4 +48,13 @@ body {
 #current {
 	margin: 0;
 	display: inline;
+}
+
+.font-small {
+	font-size: 00.85rem !important;
+}
+
+.table-heading {
+	font-size: 0.85rem !important;
+	font-weight: 200 !important;
 }

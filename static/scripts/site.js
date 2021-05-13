@@ -9,9 +9,43 @@ if (currentVal < 0) {
 	currentEle.classList.add('green');
 }
 
-let bigNum = document.getElementById('big-number').innerHTML;
-let newNum = toIntlCurrency(bigNum);
-document.getElementById('big-number').innerHTML = newNum;
+const url = window.location.pathname;
+
+if (url === '/') {
+	const marketCap = document.getElementById('market-cap').innerHTML;
+	const recentQuarter = document.getElementById('recent-quarter').innerHTML;
+	const newRecentQuarter = toIntlCurrency(recentQuarter);
+	const newMarketCap = toIntlCurrency(marketCap);
+
+	document.getElementById('market-cap').innerHTML = newMarketCap;
+	document.getElementById('recent-quarter').innerHTML = newRecentQuarter;
+
+	const navItems = document.getElementsByClassName('nav-item');
+	for (let item of navItems) {
+		item.classList.remove('nav-item-selected');
+	}
+
+	const summaryEle = document.getElementById('summary');
+	summaryEle.classList.add('nav-item-selected');
+} else if (url === '/holders') {
+	const navItems = document.getElementsByClassName('nav-item');
+	for (let item of navItems) {
+		item.classList.remove('nav-item-selected');
+	}
+
+	const holdersEle = document.getElementById('holders');
+	holdersEle.classList.add('nav-item-selected');
+}
+
+if (url === '/profile') {
+	const navItems = document.getElementsByClassName('nav-item');
+	for (let item of navItems) {
+		item.classList.remove('nav-item-selected');
+	}
+
+	const profileEle = document.getElementById('profile');
+	profileEle.classList.add('nav-item-selected');
+}
 
 let marketPriceEle = document.getElementById('market-price');
 
@@ -54,7 +88,9 @@ function toIntlCurrency(labelValue) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-	LoadChart();
+	if (url === '/') {
+		LoadChart();
+	}
 });
 
 LoadChart = function () {
