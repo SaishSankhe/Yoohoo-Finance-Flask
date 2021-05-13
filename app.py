@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request
+from flask import Flask, render_template, url_for, request, jsonify
 import yfinance as yf
 
 app = Flask(__name__)
@@ -30,6 +30,14 @@ def history():
 	data = hist.to_json()
 	#return the JSON in the HTTP response
 	return data
+
+@app.route('/get-quote-data')
+def getQuoteData():
+    symbol = request.args['symbol']
+
+    data = yf.Ticker(symbol)
+
+    return (jsonify(data.info))
 
 @app.route('/holders')
 def holders():

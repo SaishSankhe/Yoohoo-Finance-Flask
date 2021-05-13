@@ -44,15 +44,15 @@
 		<p class="fw-bold fs-6">
 			{{ data.info.shortName }} ({{ data.info.symbol }})
 		</p>
-		<p class="fw-bold fs-2">
-			{{ data.info.regularMarketPrice }}
-			<span id="current" class="fs-5"
-				>(<span id="currentPercent"
-					>{{ "%.2f"|format((1 - (data.info.regularMarketPreviousClose /
-					data.info.regularMarketPrice)) * 100) }}</span
-				>%)</span
-			>
-		</p>
+		<div class="fw-bold fs-2">
+			<span id="market-price">{{ data.info.regularMarketPrice }}</span>
+			<p id="current" class="fs-5">
+				(<span id="current-percent">
+					{{ "%.2f"|format((1 - (data.info.regularMarketPreviousClose /
+					data.info.regularMarketPrice)) * 100) }} </span
+				>%)
+			</p>
+		</div>
 	</div>
 </div>
 <div class="flex-nav">

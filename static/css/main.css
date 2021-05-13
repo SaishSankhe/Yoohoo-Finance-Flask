@@ -33,3 +33,8 @@ body {
 .nav-item > a {
 	text-decoration: none;
 }
+
+#current {
+	margin: 0;
+	display: inline;
+}

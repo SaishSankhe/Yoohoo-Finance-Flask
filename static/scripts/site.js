@@ -1,4 +1,4 @@
-const currentVal = document.getElementById('currentPercent').innerHTML;
+const currentVal = document.getElementById('current-percent').innerHTML;
 const currentEle = document.getElementById('current');
 
 if (currentVal < 0) {
@@ -12,6 +12,30 @@ if (currentVal < 0) {
 let bigNum = document.getElementById('big-number').innerHTML;
 let newNum = toIntlCurrency(bigNum);
 document.getElementById('big-number').innerHTML = newNum;
+
+let marketPriceEle = document.getElementById('market-price');
+
+function refreshTime() {
+	const symbol = document.getElementById('symbol').innerHTML;
+
+	$.ajax({
+		url: '/get-quote-data?symbol=' + symbol,
+		method: 'GET',
+		cache: false,
+	}).done(function (data) {
+		let parseData = data;
+		let marketPrice = parseData.regularMarketPrice;
+		let percentVal = (
+			(1 -
+				parseData.regularMarketPreviousClose / parseData.regularMarketPrice) *
+			100
+		).toFixed(2);
+		marketPriceEle.innerHTML = marketPrice;
+		document.getElementById('current-percent').innerHTML = percentVal;
+	});
+}
+
+setInterval(refreshTime, 5000);
 
 function toIntlCurrency(labelValue) {
 	// Twelve Zeroes for Trillions
@@ -48,13 +72,13 @@ LoadChart = function () {
 
 RenderChart = function (data, symbol) {
 	console.log('in renderchart');
-	var priceData = [];
-	var dates = [];
+	let priceData = [];
+	let dates = [];
 
-	for (var i in data.Close) {
-		var dt = i.slice(0, i.length - 3);
-		var dateString = moment.unix(dt).format('MM/YY');
-		var close = data.Close[i];
+	for (let i in data.Close) {
+		let dt = i.slice(0, i.length - 3);
+		let dateString = moment.unix(dt).format('MM/YY');
+		let close = data.Close[i];
 		if (close != null) {
 			priceData.push(data.Close[i].toFixed(2));
 			dates.push(dateString);
