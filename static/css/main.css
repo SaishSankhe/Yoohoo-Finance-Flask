@@ -1,0 +1,35 @@
+body {
+	margin: 20px;
+	font-family: sans-serif;
+}
+
+#myChart {
+	width: 100% !important;
+	height: auto;
+}
+
+.red {
+	color: red;
+}
+
+.green {
+	color: green;
+}
+
+.table-font {
+	font-size: 0.85rem !important;
+}
+
+.flex-nav {
+	display: flex;
+	flex-direction: row;
+	margin: 20px 0;
+}
+
+.nav-item {
+	margin: 0 10px;
+}
+
+.nav-item > a {
+	text-decoration: none;
+}
