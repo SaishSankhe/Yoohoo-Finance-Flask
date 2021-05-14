@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 {% block content %}
 
-<div>
+<div class="col-8 mx-auto">
 	{% if major %}
 	<h2 class="fs-5 fw-bold">Major holders</h2>
 	<p class="font-small fw-bold">
@@ -11,7 +11,7 @@
 	</p>
 
 	<div class="row align-items-start mt-4">
-		<div class="col-8">
+		<div class="col">
 			<table class="table table-font">
 				<tbody>
 					{% for item in major%}
@@ -33,7 +33,7 @@
 	<h2 class="fs-5 fw-bold mt-4">Top Institutional Holders</h2>
 
 	<div class="row align-items-start mt-4">
-		<div class="col-8">
+		<div class="col">
 			<table class="table table-font">
 				<thead>
 					<tr>

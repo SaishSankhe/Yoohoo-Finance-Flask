@@ -58,7 +58,9 @@
 		<p id="symbol" style="display: none">{{ data.symbol }}</p>
 		<p class="fw-bold fs-6">{{ data.shortName }} ({{ data.symbol }})</p>
 		<div class="fw-bold fs-2">
-			<span id="market-price">{{ data.regularMarketPrice }}</span>
+			<span id="market-price" class="fw-bolder"
+				>{{ data.regularMarketPrice }}</span
+			>
 			<p id="current" class="fs-5">
 				(<span id="current-percent"
 					>{{ "%.2f"|format((1 - (data.regularMarketPreviousClose /
@@ -68,7 +70,7 @@
 		</div>
 	</div>
 </div>
-<div class="flex-nav">
+<div class="flex-nav offset-2">
 	<div class="nav-item" id="summary">
 		<a href="/?symbol={{data.symbol}}">Summary</a>
 	</div>
