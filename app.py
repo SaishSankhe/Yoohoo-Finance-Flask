@@ -5,7 +5,6 @@ import yfinance as yf
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///symbols.db'
 db = SQLAlchemy(app)
-server = app.server
 
 # define our database model
 class Symbols(db.Model):
