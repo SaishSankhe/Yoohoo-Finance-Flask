@@ -3,11 +3,21 @@
 <!-- prettier-ignore -->
 {% block head %}
 
+{% if data %}
 <title>
 	{{ data.symbol }} {{ data.regularMarketPrice }} ({{ "%.2f"|format((1 -
 	(data.regularMarketPreviousClose / data.regularMarketPrice)) * 100) }}%)
 </title>
+{% endif %}
 
+<!-- prettier-ignore -->
+{% if error %}
+
+<title>Error!</title>
+
+{% endif %}
+
+<!-- prettier-ignore -->
 {% endblock %}
 
 <!-- prettier-ignore -->
@@ -21,14 +31,20 @@
 					class="form-control"
 					type="text"
 					name="symbol"
-					placeholder="search tickers (aapl, msft, tsla, ...)"
+					placeholder="search for symbols (aapl, msft, tsla, ...)"
 					aria-label="default input example"
 				/>
 			</div>
+
 			<button type="submit" class="col-sm-1 btn btn-dark">
 				<i class="bi bi-search pe-1"></i>
 			</button>
 		</div>
+		<!-- prettier-ignore -->
+		{% if error %}
+		<p class="error text-center fs-6 fw-bold text-danger">{{ error }}</p>
+		<!-- prettier-ignore -->
+		{% endif %}
 	</form>
 </div>
 

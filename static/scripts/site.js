@@ -121,6 +121,13 @@ RenderChart = function (data, symbol) {
 		}
 	}
 
+	let color = '#00873C';
+	if (currentVal > 0) {
+		color = '#00873C';
+	} else {
+		color = '#EB0F29';
+	}
+
 	new Chart(document.getElementById('myChart'), {
 		type: 'line',
 		data: {
@@ -130,10 +137,17 @@ RenderChart = function (data, symbol) {
 					label: symbol,
 					data: priceData,
 					fill: true,
-					borderColor: 'rgb(75, 192, 192)',
+					borderColor: color,
+					backgroundColor: color,
 					tension: 0,
 				},
 			],
+			options: {
+				interaction: {
+					intersect: false,
+					mode: 'index',
+				},
+			},
 		},
 	});
 };

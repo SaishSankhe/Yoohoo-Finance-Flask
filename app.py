@@ -32,17 +32,20 @@ def index():
             symbol = 'tsla'
 
     data = yf.Ticker(symbol)
+    
+    if len(data.info) <= 1:
+        return render_template('index.html', error="No such symbol. Try again.")
+    else:
+        error = addToDb(symbol, data)
 
-    error = addToDb(symbol, data)
-
-    return render_template('index.html', data=data.info)
+        return render_template('index.html', data=data.info)
 
 @app.route('/history', methods=["POST", "GET"])
 def history():
     #get the query string parameters
 	symbol = request.args.get('symbol', default="AAPL")
-	period = request.args.get('period', default="1y")
-	interval = request.args.get('interval', default="1mo")
+	period = '2y'
+	interval = '1mo'
 
 	#pull the quote
 	quote = yf.Ticker(symbol)	
@@ -69,29 +72,35 @@ def holders():
     data = yf.Ticker(symbol)
     
     major_holders = data.major_holders
-    major_holders.columns = ["shares", "holders"]
+    if '%' in major_holders[0][0]:
+        major_holders.columns = ["shares", "holders"]
 
-    majorDict = major_holders.to_dict()
-    majorHolders = []
+        majorDict = major_holders.to_dict()
+        majorHolders = []
 
-    for i in range(len(majorDict['shares'])):
-        majorHolders.append({
-            "share": majorDict['shares'][i],
-            "holder": majorDict['holders'][i]
-        })
+        for i in range(len(majorDict['shares'])):
+            majorHolders.append({
+                "share": majorDict['shares'][i],
+                "holder": majorDict['holders'][i]
+            })
+    else:
+        majorHolders = False
 
     inst_holders = data.institutional_holders
-    instDict = inst_holders.to_dict()
-    instHolders = []
+    if 'Holder' in inst_holders.columns:
+        instDict = inst_holders.to_dict()
+        instHolders = []
 
-    for i in range(len(instDict['Holder'])):
-        instHolders.append({
-            "holder": instDict['Holder'][i],
-            "share": '{:,}'.format(instDict['Shares'][i]),
-            "date": (instDict['Date Reported'][i]).strftime('%b %d,%Y'),
-            "outPercent": instDict['% Out'][i],
-            "value": '{:,}'.format(instDict['Value'][i])
-        })
+        for i in range(len(instDict['Holder'])):
+            instHolders.append({
+                "holder": instDict['Holder'][i],
+                "share": '{:,}'.format(instDict['Shares'][i]),
+                "date": (instDict['Date Reported'][i]).strftime('%b %d,%Y'),
+                "outPercent": instDict['% Out'][i],
+                "value": '{:,}'.format(instDict['Value'][i])
+            })
+    else:
+        instHolders = False
 
     return render_template('holders.html', data=data.info, major=majorHolders, inst=instHolders)
 
@@ -117,16 +126,16 @@ def addToDb (symbol, data):
     if(db.session.query(db.exists().where(Symbols.id == symbol)).scalar() != True):
         id = symbol
         name = data.info['shortName']
-        address = data.info['address1']
-        city = data.info['city']
-        state = data.info['state']
-        zip = data.info['zip']
-        phone = data.info['phone']
-        website = data.info['website']
-        sector = data.info['sector']
-        industry = data.info['industry']
-        fullTimeEmployees = data.info['fullTimeEmployees']
-        description = data.info['longBusinessSummary']
+        address = data.info['address1'] if 'address' in data.info else None
+        city = data.info['city'] if 'city' in data.info else None
+        state = data.info['state'] if 'state' in data.info else None
+        zip = data.info['zip'] if 'zip' in data.info else None
+        phone = data.info['phone'] if 'phone' in data.info else None
+        website = data.info['website'] if 'website' in data.info else None
+        sector = data.info['sector'] if 'sector' in data.info else None
+        industry = data.info['industry'] if 'industry' in data.info else None
+        fullTimeEmployees = data.info['fullTimeEmployees'] if 'fullTimeEmployees' in data.info else None
+        description = data.info['longBusinessSummary'] if 'longBusinessSummary' in data.info else None
 
         new_symbol = Symbols(id = id, name = name, address = address, city = city, 
                             state = state, zip = zip, phone = phone, website = website, 

@@ -4,6 +4,7 @@
 {% block content %}
 
 <div>
+	{% if major %}
 	<h2 class="fs-5 fw-bold">Major holders</h2>
 	<p class="font-small fw-bold">
 		Breakdown <span class="fw-light">(Currency in USD)</span>
@@ -23,7 +24,12 @@
 			</table>
 		</div>
 	</div>
+	{% else %}
+	<h2 class="fs-5 fw-bold">Major holders data not available</h2>
+	{% endif %}
 
+	<!-- prettier-ignore -->
+	{% if inst %}
 	<h2 class="fs-5 fw-bold mt-4">Top Institutional Holders</h2>
 
 	<div class="row align-items-start mt-4">
@@ -54,6 +60,9 @@
 			</table>
 		</div>
 	</div>
+	{% else %}
+	<h2 class="fs-5 fw-bold mt-5">Institutional holders data not available</h2>
+	{% endif %}
 </div>
 
 <!-- prettier-ignore -->
