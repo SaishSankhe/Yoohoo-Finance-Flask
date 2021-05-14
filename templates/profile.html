@@ -4,7 +4,44 @@
 {% block content %}
 
 <div>
-	<h2 class="fs-5 fw-bold">Profile</h2>
+	<h2 class="fs-5 fw-bold">{{ info.name }}</h2>
+
+	<div class="row align-items-start mt-4">
+		<div class="col-8">
+			<div class="row">
+				<div class="col">
+					<p class="font-small profile-info">{{ info.address }}</p>
+					<p class="font-small profile-info">
+						{{ info.city }}, {{ info.state }} {{ info.zip }}
+					</p>
+					<p class="font-small profile-info">{{ info.country }}</p>
+					<p class="font-small profile-info">
+						<a href="tel:+1{{info.phone}}" target="blank">{{ info.phone }}</a>
+					</p>
+					<p class="font-small profile-info">
+						<a href="{{info.website}}" target="blank">{{ info.website }}</a>
+					</p>
+				</div>
+				<div class="col">
+					<p class="font-small profile-info">
+						Sector(s): <span class="fw-bold">{{ info.sector }}</span>
+					</p>
+					<p class="font-small profile-info">
+						Industry: <span class="fw-bold">{{ info.industry }}</span>
+					</p>
+					<p class="font-small profile-info">
+						Fulltime Employees:
+						<span class="fw-bold"
+							>{{ '{:,}'.format(info.fullTimeEmployees) }}</span
+						>
+					</p>
+				</div>
+			</div>
+
+			<p class="fs-6 fw-bold mt-4 mb-1">Description</p>
+			<p class="font-small">{{ info.description }}</p>
+		</div>
+	</div>
 </div>
 
 {% endblock %}

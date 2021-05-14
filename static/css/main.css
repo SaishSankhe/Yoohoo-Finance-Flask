@@ -1,6 +1,11 @@
 body {
-	margin: 20px;
+	padding: 20px;
 	font-family: sans-serif;
+	color: rgb(70, 70, 70);
+}
+
+body > a {
+	text-decoration: none !important;
 }
 
 #myChart {
@@ -57,4 +62,12 @@ body {
 .table-heading {
 	font-size: 0.85rem !important;
 	font-weight: 200 !important;
+}
+
+.profile-info {
+	margin: 2px !important;
+}
+
+.profile-info > a {
+	text-decoration: none !important;
 }
