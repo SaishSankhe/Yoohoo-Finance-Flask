@@ -12,6 +12,8 @@ This Flask application is a Yahoo! Finance clone made using Flask, Flask-SQLAlch
 
 **Server:** Flask, SQLAlchemy
 
+**Data:** yfinance module (Python)
+
 <p align="center">
   <img src='./static/img/screenshot-2.png' width="80%"/>
 </p>
